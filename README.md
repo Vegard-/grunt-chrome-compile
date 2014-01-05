@@ -36,7 +36,9 @@ grunt.initConfig({
             buildDir: '../demoExtensionBuild',
             zipPath: '../demoExtension <%= manifest.version %>.zip',
             clean: true,
+            force: true, //to avoid warnings about delete not in CWD
             cleanPath: '../demoExtensionBuild',
+            cwd: 'dev', //CWD for resources
             resources: [
                 "_locales/**",
                 "css/**",

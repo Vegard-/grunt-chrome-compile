@@ -21,7 +21,6 @@ module.exports = function(grunt) {
 
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-compress');
-	grunt.loadNpmTasks('grunt-contrib-concat');
 
 	grunt.registerTask('chrome-extension', 'Package a google chrome extension', function() {
 		grunt.config.requires('chrome-extension.options.name');
@@ -46,6 +45,10 @@ module.exports = function(grunt) {
 			}
 		});
 
+        if( options.force ){
+            grunt.option('force', true);
+        }
+
         options.chrome = buildAbsolutePath(options.chrome);
 		options.extension.path = options.buildDir;
 		options.extension.cert = options.certPath;
@@ -67,26 +70,15 @@ module.exports = function(grunt) {
 		);
 	});
 
-    grunt.registerTask('chrome-extension-clean', 'clean the build folder', function() {
-        grunt.log.writeln( 'Cleaning tmp dir..' );
-
-        var options = grunt.option('extensionOptions');
-
-        var cleanPath = options.extension.path;
-        if(options.clean && grunt.file.exists(cleanPath)) {
-            grunt.file.delete(cleanPath);
-        }
-    });
-
-	grunt.registerTask('chrome-extension-copy', 'copy extension resources to a build folder', function() {
+	grunt.registerTask('chrome-extension-copy', 'copy extension resources to a build folder', function(){
 		var options = grunt.option('extensionOptions');
 
-		if(grunt.file.exists(options.extension.path)) {
+		if( grunt.file.exists(options.extension.path) ){
 			grunt.file.delete(options.extension.path);
 		}
 		grunt.file.mkdir(options.extension.path);
 		grunt.config.set('copy.extension', { files: [
-			{expand: true, cwd: '.', src: options.resources, dest: options.extension.path}
+			{expand: true, cwd: options.cwd || '.', src: options.resources, dest: options.extension.path}
 		]});
 		grunt.task.run('copy:extension');
 	});
@@ -130,6 +122,17 @@ module.exports = function(grunt) {
                 }
             });
 	});
+
+    grunt.registerTask('chrome-extension-clean', 'clean the build folder', function() {
+        grunt.log.writeln( 'Cleaning tmp dir..' );
+
+        var options = grunt.option('extensionOptions');
+
+        var cleanPath = options.extension.path;
+        if(options.clean && grunt.file.exists(cleanPath)) {
+            grunt.file.delete(cleanPath);
+        }
+    });
 
     /**
      * Build absolute path according to OS
