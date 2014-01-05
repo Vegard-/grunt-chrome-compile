@@ -1,4 +1,5 @@
 #Inspired by original grunt-chrome-compile by scarrillo
+Original didn't works on my Windows 7x64 PC due spaces in files names, so I've adapted tasks.
 
 # grunt-contrib-build-crx
 > Package a google chrome extension.

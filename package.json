@@ -1,7 +1,7 @@
 {
   "name": "grunt-contrib-build-crx",
   "description": "Generate CRX and ZIP from chrome extension source.",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "homepage": "https://github.com/c301/grunt-chrome-compile",
   "author": {
     "name": "c301",
