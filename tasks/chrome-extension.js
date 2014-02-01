@@ -25,7 +25,6 @@ module.exports = function(grunt) {
 	grunt.registerTask('chrome-extension', 'Package a google chrome extension', function() {
 		grunt.config.requires('chrome-extension.options.name');
 		grunt.config.requires('chrome-extension.options.chrome');
-		grunt.config.requires('chrome-extension.options.certPath');
 		grunt.config.requires('chrome-extension.options.crxPath');
 		grunt.config.requires('chrome-extension.options.buildDir');
 		grunt.config.requires('chrome-extension.options.zipPath');
@@ -51,7 +50,7 @@ module.exports = function(grunt) {
 
         options.chrome = buildAbsolutePath(options.chrome);
 		options.extension.path = options.buildDir;
-		options.extension.cert = options.certPath;
+		options.extension.cert = options.certPath || '';
 		options.extension.crx = options.crxPath;
 		options.extension.zip = options.zipPath;
 
@@ -104,7 +103,7 @@ module.exports = function(grunt) {
         var command = [
             options.chrome,
             '--pack-extension='+ buildAbsolutePath(options.extension.path),
-            '--pack-extension-key='+ buildAbsolutePath(options.extension.cert),
+            options.extension.cert ? ('--pack-extension-key='+ buildAbsolutePath(options.extension.cert)) : '',
             '--no-message-box'
         ].join( ' ' );
 
