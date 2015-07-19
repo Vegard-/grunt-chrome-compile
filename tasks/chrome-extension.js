@@ -138,9 +138,7 @@ module.exports = function(grunt) {
      */
     function buildAbsolutePath(file){
         var absPath = path.resolve(file);
-        if( isWin ){
-            absPath = '\"' + absPath + '\"';
-        }
+    	absPath = '\"' + absPath + '\"';
         return absPath;
     }
 };
